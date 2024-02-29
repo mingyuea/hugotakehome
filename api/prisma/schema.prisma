@@ -12,17 +12,17 @@ datasource db {
 
 model Application {
   id           Int      @id @default(autoincrement())
-  isComplete   Boolean  @default(false)
-  firstname    String
-  lastname     String 
-  dob          DateTime
-  street       String
-  city         String
-  state        String
-  zip          Int
-  vehiclevin1  String   @unique
-  vehicleyear1 Int
-  vehiclemake1 String
+  isComplete   Boolean?  @default(false)
+  firstname    String?
+  lastname     String? 
+  dob          DateTime?
+  street       String?
+  city         String?
+  state        String?
+  zip          Int?
+  vehiclevin1  String?   @unique
+  vehicleyear1 Int?
+  vehiclemake1 String?
   vehiclevin2  String?  @unique
   vehicleyear2 Int?
   vehiclemake2 String?
