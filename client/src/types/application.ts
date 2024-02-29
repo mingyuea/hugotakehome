@@ -1,0 +1,20 @@
+export type Application = {
+    id: number;
+    isComplete: boolean;
+    firstname: string;
+    lastname: string;
+    dob: Date;
+    street: string;
+    city: string;
+    state: string;
+    zip: number;
+    vehiclevin1: string;
+    vehicleyear1: number;
+    vehiclemake1: string;
+    vehiclevin2: string | null;
+    vehicleyear2: number | null;
+    vehiclemake2: string | null;
+    vehiclevin3: string | null;
+    vehicleyear3: number | null;
+    vehiclemake3: string | null;
+};

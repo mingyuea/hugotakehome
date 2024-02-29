@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Application {
+  id           Int      @id @default(autoincrement())
+  isComplete   Boolean  @default(false)
+  firstname    String
+  lastname     String 
+  dob          DateTime
+  street       String
+  city         String
+  state        String
+  zip          Int
+  vehiclevin1  String   @unique
+  vehicleyear1 Int
+  vehiclemake1 String
+  vehiclevin2  String?  @unique
+  vehicleyear2 Int?
+  vehiclemake2 String?
+  vehiclevin3  String?  @unique
+  vehicleyear3 Int?
+  vehiclemake3 String?
+}
+
+// model User {
+//   id        Int      @id @default(autoincrement())
+//   firstname String
+//   lastname  String 
+//   dob       DateTime
+// }
