@@ -9,6 +9,7 @@ routes.post('/', async (req, res) => {
 
     res.json({
         message: `Start a new insurance application with id ${app.id}`,
+        data: app,
     });
 });
 
@@ -72,7 +73,7 @@ routes.get('/:id', async (req, res) => {
 routes.put('/:id', async (req, res) => {
     const appId = Number(req.params.id);
     const updatedData = req.body.data;
-    updatedData.id = appId; // Ensure id is idempotent
+    console.log('BACKEND BODY', req.body);
 
     try {
         const app = await Controllers.updateApplicationById(appId, updatedData);
@@ -90,9 +91,9 @@ routes.put('/:id', async (req, res) => {
 });
 
 routes.post('/:id/submit', async (req, res) => {
+    console.log('SUBMIT BACKEND BODY', req.body);
     const appId = Number(req.params.id);
     const updatedData = req.body.data;
-    updatedData.id = appId; // Ensure id is idempotent
 
     try {
         const app = await Controllers.submitApplicationById(appId, updatedData);

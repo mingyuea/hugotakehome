@@ -56,7 +56,9 @@ function vehicleYearValidation(vYear: number) {
 
 function birthdayValidation(dob: number) {
     // DOB is passed as unixtime, we check if it's within a valid range and
-    // if the applicant is over 16 year old
+    // if the applicant is over 16 year old. Note that we did not bother
+    // dealing with timezones here.
+
     const currDate = Date.now();
     const dobYears = (currDate - dob) / (1000 * 60 * 60 * 24 * 365);
 
@@ -89,6 +91,7 @@ function sharedValidation(app) {
 export function typeValidation(app) {
     for (const field in app) {
         if (typeof app[field] !== APP_FIELD_TYPE[field]) {
+            console.log(typeof app[field]);
             throw new Error(`There was a type error for the field ${field} in the application`);
         }
     }

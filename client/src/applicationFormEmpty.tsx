@@ -4,59 +4,52 @@ import { useState, ChangeEvent } from 'react';
 
 type Props = {
     // defining initialData type will mess with setting the state, so we use any
-    initialData: any;
     onSubmit: any;
     onSave: any;
 };
 
-const dobDateParser = function (dob: number) {
-    const dateObj = new Date(dob);
-    return dateObj.toISOString().split('T')[0];
-};
-
-export default function ApplicationForm({ initialData, onSubmit, onSave }: Props) {
+export default function ApplicationFormEmpty({ onSubmit, onSave }: Props) {
     const initStateObj = {
-        id: initialData?.id,
-        isComplete: initialData?.isComplete,
-        firstname: initialData?.firstname || '',
-        lastname: initialData?.lastname || '',
-        dob: initialData && initialData.dob ? dobDateParser(initialData.dob) : '',
-        street: initialData?.street || '',
-        city: initialData?.city || '',
-        state: initialData?.state || '',
-        zip: initialData?.zip || '',
-        vehiclevin1: initialData?.vehiclevin1 || '',
-        vehicleyear1: initialData?.vehicleyear1 || '',
-        vehiclemake1: initialData?.vehiclemake1 || '',
-        vehiclevin2: initialData?.vehiclevin2 || '',
-        vehicleyear2: initialData?.vehicleyear2 || '',
-        vehiclemake2: initialData?.vehiclemake2 || '',
-        vehiclevin3: initialData?.vehiclevin3 || '',
-        vehicleyear3: initialData?.vehicleyear3 || '',
-        vehiclemake3: initialData?.vehiclemake3 || '',
-        price: initialData?.price,
+        isComplete: '',
+        firstname: '',
+        lastname: '',
+        dob: '',
+        street: '',
+        city: '',
+        state: '',
+        zip: '',
+        vehiclevin1: '',
+        vehicleyear1: '',
+        vehiclemake1: '',
+        vehiclevin2: '',
+        vehicleyear2: '',
+        vehiclemake2: '',
+        vehiclevin3: '',
+        vehicleyear3: '',
+        vehiclemake3: '',
+        price: '',
     };
+
+    // const [firstname, setFirstName] = useState(initialData.firstname || '');
+
     const [formData, setFormData] = useState({ ...initStateObj });
+
     const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
     const handleSubmit = () => {
-        onSubmit(formData);
+        onSubmit(form);
     };
 
     const handleSave = () => {
-        onSave(formData);
+        onSave(form);
     };
 
     return (
         <form>
             <div>
-                <h2>Application Form</h2>
-            </div>
-            <div>
-                <span>First Name:</span>
                 <input
                     type="text"
                     id="firstname"
@@ -66,7 +59,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Last Name:</span>
                 <input
                     type="text"
                     id="lastname"
@@ -76,7 +68,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Date of Birth:</span>
                 <input
                     type="date"
                     id="dob"
@@ -86,7 +77,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Street Address:</span>
                 <input
                     type="text"
                     id="street"
@@ -96,7 +86,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>City:</span>
                 <input
                     type="text"
                     id="city"
@@ -106,7 +95,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>State:</span>
                 <input
                     type="text"
                     id="state"
@@ -116,7 +104,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Zip Code:</span>
                 <input
                     type="number"
                     id="zip"
@@ -126,7 +113,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 1 Vin:</span>
                 <input
                     type="text"
                     id="vehiclevin1"
@@ -136,7 +122,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 1 year:</span>
                 <input
                     type="number"
                     id="vehicleyear1"
@@ -146,7 +131,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 1 make/model:</span>
                 <input
                     type="text"
                     id="vehiclemake1"
@@ -156,7 +140,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 2 VIN:</span>
                 <input
                     type="text"
                     id="vehiclevin2"
@@ -166,7 +149,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 2 year:</span>
                 <input
                     type="number"
                     id="vehicleyear2"
@@ -176,7 +158,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 2 make/model:</span>
                 <input
                     type="text"
                     id="vehiclemake2"
@@ -186,7 +167,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 3 VIN:</span>
                 <input
                     type="text"
                     id="vehiclevin3"
@@ -196,7 +176,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 3 year:</span>
                 <input
                     type="number"
                     id="vehicleyear3"
@@ -206,7 +185,6 @@ export default function ApplicationForm({ initialData, onSubmit, onSave }: Props
                 />
             </div>
             <div>
-                <span>Vehicle 3 make/model:</span>
                 <input
                     type="text"
                     id="vehiclemake3"

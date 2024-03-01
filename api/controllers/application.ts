@@ -48,7 +48,7 @@ export async function updateApplicationById(appId: number, updatedData: any) {
 
 export async function submitApplicationById(appId: number, updatedData: any) {
     updatedData.isComplete = true;
-    updatedData.price = Math.random();
+    updatedData.price = Math.random() * 100;
 
     try {
         typeValidation(updatedData);

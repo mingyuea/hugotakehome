@@ -1,4 +1,6 @@
 import express, { Request, Response } from 'express';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 import routes from './routes';
 
 const PORT = process.env.API_PORT || 8000;
@@ -9,6 +11,8 @@ app.get('/ping', (req: Request, res: Response) => {
     res.json({ message: 'pong' });
 });
 
+app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(routes);
 
