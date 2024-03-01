@@ -9,6 +9,7 @@ app.get('/ping', (req: Request, res: Response) => {
     res.json({ message: 'pong' });
 });
 
+app.use(express.json());
 app.use(routes);
 
 app.listen(PORT, () => {

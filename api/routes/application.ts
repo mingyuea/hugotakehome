@@ -5,7 +5,6 @@ import * as Controllers from '../controllers/application';
 const routes = Router();
 
 routes.post('/', async (req, res) => {
-    console.log('hit POST');
     const app = await Controllers.createApplication();
 
     res.json({
@@ -14,7 +13,6 @@ routes.post('/', async (req, res) => {
 });
 
 routes.get('/', async (req, res) => {
-    console.log('hit GET');
     try {
         const app = await Controllers.getFirstIncompleteApplication();
 
@@ -33,57 +31,81 @@ routes.get('/', async (req, res) => {
         }
     } catch (err) {
         res.status(500).json({
-            error: err,
+            error: err.message,
             hasIncomplete: false,
         });
     }
 });
 
 routes.get('/all', async (req, res) => {
-    console.log('hit GET ALL');
-    const apps = await Controllers.getAllApplications();
+    try {
+        const apps = await Controllers.getAllApplications();
 
-    res.json({
-        message: `Get all insurance applications}`,
-        data: apps,
-    });
+        res.json({
+            message: `Get all insurance applications}`,
+            data: apps,
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message,
+        });
+    }
 });
 
 routes.get('/:id', async (req, res) => {
-    console.log('hit GET ID');
     const appId = Number(req.params.id);
-    const app = await Controllers.getApplicationById(appId);
 
-    res.json({
-        message: `Get insurance application with id ${appId}`,
-        data: app,
-    });
+    try {
+        const app = await Controllers.getApplicationById(appId);
+
+        res.json({
+            message: `Get insurance application with id ${appId}`,
+            data: app,
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message,
+        });
+    }
 });
 
 routes.put('/:id', async (req, res) => {
-    console.log('hit PUT');
     const appId = Number(req.params.id);
     const updatedData = req.body.data;
-    const app = await Controllers.updateApplicationById(appId, updatedData);
+    updatedData.id = appId; // Ensure id is idempotent
 
-    res.json({
-        message: `Update insurance application with id ${req.params.id}`,
-        data: app,
-    });
+    try {
+        const app = await Controllers.updateApplicationById(appId, updatedData);
+
+        res.json({
+            message: `Update insurance application with id ${req.params.id}`,
+            data: app,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            error: err.message,
+        });
+    }
 });
 
 routes.post('/:id/submit', async (req, res) => {
-    console.log('hit POST SUBMIT');
     const appId = Number(req.params.id);
     const updatedData = req.body.data;
-    updatedData['isComplete'] = true;
-    const app = await Controllers.updateApplicationById(appId, updatedData);
+    updatedData.id = appId; // Ensure id is idempotent
 
-    res.json({
-        message: `Submit insurance application with id ${req.params.id}`,
-        data: app,
-        price: Math.random(),
-    });
+    try {
+        const app = await Controllers.submitApplicationById(appId, updatedData);
+
+        res.json({
+            message: `Submit insurance application with id ${req.params.id}`,
+            data: app,
+        });
+    } catch (err) {
+        res.status(400).json({
+            error: err.message,
+        });
+    }
 });
 
 export default routes;

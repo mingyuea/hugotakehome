@@ -15,7 +15,7 @@ model Application {
   isComplete   Boolean?  @default(false)
   firstname    String?
   lastname     String? 
-  dob          DateTime?
+  dob          Int?
   street       String?
   city         String?
   state        String?
@@ -29,6 +29,7 @@ model Application {
   vehiclevin3  String?  @unique
   vehicleyear3 Int?
   vehiclemake3 String?
+  price        Int?
 }
 
 // model User {
