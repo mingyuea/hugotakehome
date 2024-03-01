@@ -73,7 +73,6 @@ routes.get('/:id', async (req, res) => {
 routes.put('/:id', async (req, res) => {
     const appId = Number(req.params.id);
     const updatedData = req.body.data;
-    console.log('BACKEND BODY', req.body);
 
     try {
         const app = await Controllers.updateApplicationById(appId, updatedData);
@@ -83,7 +82,7 @@ routes.put('/:id', async (req, res) => {
             data: app,
         });
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.status(400).json({
             error: err.message,
         });
@@ -91,7 +90,6 @@ routes.put('/:id', async (req, res) => {
 });
 
 routes.post('/:id/submit', async (req, res) => {
-    console.log('SUBMIT BACKEND BODY', req.body);
     const appId = Number(req.params.id);
     const updatedData = req.body.data;
 

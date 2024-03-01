@@ -17,7 +17,9 @@ export default function ApplicationContainer() {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const pathId = queryParams.get('id');
+
     const [appData, setAppData] = useState<Application | null>();
+    const [compErr, setErr] = useState<Error | null>(null);
 
     useEffect(() => {
         const appPromise = async () => {
@@ -33,7 +35,6 @@ export default function ApplicationContainer() {
                 if (app) {
                     setAppData((prevAppData) => ({ ...prevAppData, ...app }));
                 }
-                console.log('APPDATE RETRIEVED IS', app);
             } catch (err) {
                 console.error('Error: ', err);
                 throw err;
@@ -43,20 +44,38 @@ export default function ApplicationContainer() {
     }, [pathId]);
 
     const handleSubmit = (inputData) => {
+        trimNullFields(inputData);
         const newData = parseNumbers(inputData);
-        trySubmitApplicationById(appData.id, newData);
-        console.log('SUBMITTING', newData);
+        try {
+            trySubmitApplicationById(appData.id, newData, errorHandler);
+        } catch (err) {
+            console.error('Error: ', err);
+            throw err;
+        }
+
+        console.log('SUBMITTING...', newData);
     };
 
     const handleSave = (inputData) => {
         trimNullFields(inputData);
         const newData = parseNumbers(inputData);
-        trySaveApplicationById(appData.id, newData);
-        console.log('SAVING', newData);
+        try {
+            trySaveApplicationById(appData.id, newData, errorHandler);
+        } catch (err) {
+            console.error('Error: ', err);
+            throw err;
+        }
+
+        console.log('SAVING...', newData);
+    };
+
+    const errorHandler = (error) => {
+        setErr(error);
     };
 
     return (
         <div>
+            {compErr ? <div className="text-red-400">{compErr.message}</div> : null}
             {pathId && !appData ? (
                 <h2>Application not found</h2>
             ) : appData ? (

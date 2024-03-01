@@ -66,7 +66,8 @@ export async function tryGetApplicationById(appId: number): Promise<Application>
 
 export async function trySaveApplicationById(
     appId: number,
-    updatedApp: Application
+    updatedApp: Application,
+    errorHandler: Function
 ): Promise<Application> {
     try {
         const res = await fetch(BASE_SERVER_URL + '/' + appId.toString(), {
@@ -80,9 +81,13 @@ export async function trySaveApplicationById(
             const resErr = resJson.error;
             const errorMessage = `Error saving application ${appId}: ${resErr}`;
             console.error(errorMessage);
-            throw new Error(errorMessage);
+            const newErr = new Error(errorMessage);
+
+            errorHandler(newErr);
+            throw newErr;
         }
         const resJson = await res.json();
+        errorHandler(null);
         return resJson.data;
     } catch (err) {
         console.error(`Error updating the application ${appId}`);
@@ -92,7 +97,8 @@ export async function trySaveApplicationById(
 
 export async function trySubmitApplicationById(
     appId: number,
-    updatedApp: Application
+    updatedApp: Application,
+    errorHandler: Function
 ): Promise<Application> {
     try {
         const res = await fetch(BASE_SERVER_URL + '/' + appId.toString() + SUBMIT_ROUTE, {
@@ -106,12 +112,17 @@ export async function trySubmitApplicationById(
             const resErr = resJson.error;
             const errorMessage = `Error submitting application ${appId}: ${resErr}`;
             console.error(errorMessage);
-            throw new Error(errorMessage);
+            const newErr = new Error(errorMessage);
+
+            errorHandler(newErr);
+            throw newErr;
         }
         const resJson = await res.json();
+        errorHandler(null);
         return resJson.data;
     } catch (err) {
         console.error(`Error updating the application ${appId}`);
+        errorHandler(err);
         throw err;
     }
 }
